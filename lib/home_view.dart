@@ -19,6 +19,8 @@ class _HomeViewState extends State<HomeView> {
   TextEditingController descTEController = TextEditingController();
   TextEditingController daysReqTEController = TextEditingController();
 
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,27 +100,31 @@ class _HomeViewState extends State<HomeView> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.grey[50],
+          scrollable: true,
           title: const Text('Add Task'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextFormField(
-                controller: titleTEController,
-                label: 'Title',
-                hint: 'Title of Task',
-              ),
-              CustomTextFormField(
-                controller: descTEController,
-                label: 'Description',
-                hint: 'Brief description',
-                maxLine: 4,
-              ),
-              CustomTextFormField(
-                controller: daysReqTEController,
-                label: 'Days Required',
-                hint: 'Number of days',
-              ),
-            ],
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomTextFormField(
+                  controller: titleTEController,
+                  label: 'Title',
+                  hint: 'Title of Task',
+                ),
+                CustomTextFormField(
+                  controller: descTEController,
+                  label: 'Description',
+                  hint: 'Brief description',
+                  maxLine: 4,
+                ),
+                CustomTextFormField(
+                  controller: daysReqTEController,
+                  label: 'Days Required',
+                  hint: 'Number of days',
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(
@@ -132,18 +138,21 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void addNewTask(BuildContext context) {
+    final validForm = formKey.currentState!.validate();
     setState(() {
-      listOfTasks.add(
-          TaskModel(
-            titleTEController.text.trim(),
-            descTEController.text.trim(),
-            int.parse(daysReqTEController.text.trim()),
-          )
-      );
-      Navigator.pop(context);
-      titleTEController.clear();
-      descTEController.clear();
-      daysReqTEController.clear();
+      if(validForm){
+        listOfTasks.add(
+            TaskModel(
+              titleTEController.text.trim(),
+              descTEController.text.trim(),
+              int.parse(daysReqTEController.text.trim()),
+            )
+        );
+        Navigator.pop(context);
+        titleTEController.clear();
+        descTEController.clear();
+        daysReqTEController.clear();
+      }
     });
   }
 }
