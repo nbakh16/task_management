@@ -26,19 +26,22 @@ class _HomeViewState extends State<HomeView> {
         title: const Text('Task Management'),
         centerTitle: true,
       ),
-      body: ListView.separated(
-        itemCount: listOfTasks.length,
-        itemBuilder: (context, index) {
-          return CustomListTile(
-            onLongPress: () => taskDetailsBottomSheet(index),
-            title: listOfTasks[index].title,
-            subtitle: listOfTasks[index].description,
-            days: listOfTasks[index].daysRequired.toString(),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(height: 0, thickness: 2,);
-        },
+      body: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 20),
+        child: ListView.separated(
+          itemCount: listOfTasks.length,
+          itemBuilder: (context, index) {
+            return CustomListTile(
+              onLongPress: () => taskDetailsBottomSheet(index),
+              title: listOfTasks[index].title,
+              subtitle: listOfTasks[index].description,
+              days: listOfTasks[index].daysRequired.toString(),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const Divider(height: 0, thickness: 2,);
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => addTaskShowDialog(context),
@@ -132,9 +135,9 @@ class _HomeViewState extends State<HomeView> {
     setState(() {
       listOfTasks.add(
           TaskModel(
-            titleTEController.text,
-            descTEController.text,
-            int.parse(daysReqTEController.text),
+            titleTEController.text.trim(),
+            descTEController.text.trim(),
+            int.parse(daysReqTEController.text.trim()),
           )
       );
       Navigator.pop(context);

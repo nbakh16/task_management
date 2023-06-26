@@ -24,14 +24,18 @@ class CustomListTile extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.w500
           ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(subtitle,
           style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400
           ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
-        trailing: Text('Required $days days'),
+        trailing: Text('Required\n$days day(s)'),
       ),
     );
   }
